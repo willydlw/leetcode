@@ -10,11 +10,12 @@
 
 #include <stdio.h>
 #include <stdint.h>
-#include <assert.h>
+#include <stdlib.h>
+
 
 /* Method 1a: Test each bit
 
-   Time Complexity O(k) where k is the bit size for the data time.
+   Time Complexity O(k) where k is the data type's bit size.
         uint32_t has 32 bits, time complexity O(32)
 */
 
@@ -35,7 +36,11 @@ int hammingWeight1a(uint32_t n)
 
 
 
-/*  Method 1a: Brute Force using division and modulus operators
+/*  Method 1b: Starting with rightmost bit, check all bits until
+    the leftmost one is reached. Use division and modulus to reduce
+    the input value and check the rightmost bit.
+
+    Algorithm:
 
         Let n = input value
         While n is greater than zero
@@ -45,13 +50,12 @@ int hammingWeight1a(uint32_t n)
             Let n = n / 2
         Return count 
 
-    Worst case time Complexity 0(k) where k is the number of bits 
-    in the data type size.
+    Time Complexity 0(k) where k is the leftmost '1' bit
 
     Example: O(32) when leftmost bit is a 1 in a 32 bit number.
 */
 
-int hammingWeight1a(uint32_t n)
+int hammingWeight1b(uint32_t n)
 {
     int count = 0;
     while(n > 0)
@@ -66,7 +70,10 @@ int hammingWeight1a(uint32_t n)
     return count;
 }
 
-/*  Method 1: Brute force using bit shifing and bitwise logical operations.
+
+/*  Method 1c: Starting with rightmost bit, check all bits until
+    the leftmost one is reached. Use right shift instead of division
+    operator. Use bitwise and instead of modulus operator.
 
         Let n = input value
         While n is greater than zero
@@ -76,10 +83,10 @@ int hammingWeight1a(uint32_t n)
             Let n = n / 2 
         Return count 
 
-    Worst case Time Complexity 0(k) where k is the number of bits 
+    Time Complexity 0(k) where k is the number of bits 
     in the data type size.
 */
-int hammingWeight1b(uint32_t n)
+int hammingWeight1c(uint32_t n)
 {
     int count = 0;
     while(n){
@@ -107,7 +114,7 @@ int hammingWeight1b(uint32_t n)
     Time complexity is O(k) where k are the
     number of bits set to 1.
     
-    Worst case time complexity is O(n) where n are the
+    Worst case time complexity is O(k) where k is the
     number of bits in the data type size.
 
     Best case is O(1)
@@ -128,6 +135,7 @@ int hammingWeight2(uint32_t n){
 }
 
 
+#if 0
 /* Follow up question: 
     If this function is called many times, how would you optimize it?
 
@@ -172,19 +180,40 @@ int hammingWeight3(uint32_t n)
     }
     return count;
 }
+#endif 
 
-
-int main(void){
-    uint32_t test[6] = {0x0, 0x01, 0xB, 0x1111, 0xEFFF, 0xFFFF};
-    int count;
-
-    printf("\n*** Method 2 ***\n");
-    printf("%8s  %8s\n", "n", "count");
-    for(int i = 0; i < 6; ++i){
-        count = hammingWeight2(test[i]);
-        printf("%#8x %8d\n", test[i], count);
+void test_method(int (*f)(uint32_t), uint32_t testValue, int expectedValue, const char* funcName)
+{
+    int onesCount = f(testValue);
+    if(onesCount != expectedValue)
+    {
+        fprintf(stderr, "ERROR: %s, testValue: %#10x, onesCount: %2d, expected value: %2d\n", 
+            funcName, testValue, onesCount, expectedValue);
+        exit(EXIT_FAILURE);
     }
+   
+}
 
+void run_tests(void)
+{
+    uint32_t testValue[6] = {0x0, 0x01, 0xB, 0x1111, 0xEFFF, 0xFFFFFFFF};
+    int expectedCount[6] = {0, 1, 3, 4, 31, 32}; // 31 is designed to trigger error message
+  
+    for(int i = 0; i < 6; ++i)
+    {
+        //test_method(hammingWeight1a, testValue[i], expectedCount[i], "hammingWeight1a");
+        //test_method(hammingWeight1b, testValue[i], expectedCount[i], "hammingWeight1b");
+        //test_method(hammingWeight1c, testValue[i], expectedCount[i], "hammingWeight1c");
+        test_method(hammingWeight2, testValue[i], expectedCount[i], "hammingWeight2");
+    }
+}
+
+
+int main(void)
+{
+    run_tests();
+
+    #if 0
     /*  Answer to follow up question. For convenience sake, we will 
         compute the Hamming Weights for 8-bit values: 0 - 255 and store
         them in a global array.
@@ -203,7 +232,6 @@ int main(void){
 
     printf("\n*** Testing Largest Value ***\n");
     printf("%#8x %8d\n", 0xFFFFFFFF, hammingWeight3(0xFFFFFFFF));
-    
-
+    #endif 
     return 0;
 }

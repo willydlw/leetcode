@@ -2,14 +2,14 @@
 
 Write a function that takes the binary representation of an unsigned integer and returns the number of '1' bits it has (also known as the Hamming weight).
 
-## Notes
+### Notes
 
 </p>Note that in some languages, such as Java, there is no unsigned integer type. In this case, the input will be given as a signed integer type. It should not affect your implementation, as the integer's internal binary representation is the same, whether it is signed or unsigned.</p>
 </p>In Java, the compiler represents the signed integers using 2's complement notation. Therefore, in Example 3, the input represents the signed integer. -3.</p>
 
-## Constraints
+### Constraints
 
-The input's binary representation is 32 bits.
+<p>The input's binary representation is 32 bits.</p>
 
 ### Example 1
 
@@ -35,15 +35,9 @@ Output: 31
 Explanation: The input binary 11111111111111111111111111111101 has a total of thirty one '1' bits.
 ```
 
-
-## Follow Up: 
-
-If this function is called many times, how would you optimize it?
-
-
 ## Solutions
 
-Four different solution algorithms are shown below.
+Four solutions are presented below.
 
 ### Method 1a - Test Every Bit 
 
@@ -128,25 +122,33 @@ return count
 ```
 
 ```
-Example: 
+Examples removing least signifcant '1'
+
     n = 0xF;        1111
     n - 1 = 0xE;    1110
                     -----
-    n & (n-1):      1110
+    n & (n-1):      1110        // least significant 1 removed
 
     n = 0x18;       0001 1000
     n - 1 = 0x17    0001 0111
                     ---------
-    n & (n-1):      0001 0000
+    n & (n-1):      0001 0000   // least signficant 1 removed
 ```
     
-Time complexity is O(k) where k are the number of bits set to 1.
+<p>Time complexity is O(k) where k are the number of bits set to 1. </p>
     
 **Why is method 2 better than method 1?**
 
-Method 2 reduces the time complexity of method 1 by not checking the zero bit values that are to the right of one bits.
+Method 2 reduces the time complexity of method 1 by not checking the zero bit values.
 
 Example: input n = 1000 0000 0000 0000 0000 0000 0000 0000 
 
 Method 1 time complexity O(32)
 Method 2 time complexity O(1)
+
+
+## Follow Up: 
+
+<p>If this function is called many times, how would you optimize it?</p>
+
+<p>Answer: precompute hamming weights and store them in an array.</p>

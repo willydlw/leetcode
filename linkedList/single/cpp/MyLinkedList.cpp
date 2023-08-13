@@ -47,5 +47,18 @@ void MyLinkedList::addAtHead(int val)
 
 void MyLinkedList::addAtTail(int val)
 {
-
+    if(head != NULL)
+    {
+        SinglyListNode *newNode = new SinglyListNode(val);
+        SinglyListNode *current = head;
+        while(current->next != NULL)
+        {
+            current = current->next;
+        }
+        current->next = newNode;
+    }
+    else
+    {
+        addAtHead(val);
+    }
 }

@@ -17,6 +17,9 @@ MyLinkedList::~MyLinkedList()
 }
 
 
+/* Get the value of the indexth node in the linked list.
+   If index is invalid, return -1.
+*/
 int MyLinkedList::get(int index) const
 {
     SinglyListNode *current = head;
@@ -38,6 +41,9 @@ int MyLinkedList::get(int index) const
     return -1;
 }
 
+/*  Add node of value val before the first element of the linked list.
+    After insertion, the new node will be the first element of the linked list.
+*/
 void MyLinkedList::addAtHead(int val)
 {
     SinglyListNode *newNode = new SinglyListNode(val);
@@ -45,6 +51,7 @@ void MyLinkedList::addAtHead(int val)
     head = newNode;
 }
 
+// Append node of value val as the last element
 void MyLinkedList::addAtTail(int val)
 {
     if(head != NULL)

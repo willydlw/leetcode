@@ -127,4 +127,32 @@ void test_get(void)
         int zeroVal = list.get(0);
         assert(zeroVal == val);
     }
+
+    {   // test non-empty list with invalid values
+        int i;
+        int val;
+        int n = rand() % MAX_ARRAY_LENGTH + 1;  // ensure array size is not zero
+        int *arr = new int[n];
+        
+        randomFill(arr, n);
+
+        // populate list in order with values from 0 to n-1
+        MyLinkedList list;
+        for(i = 0; i < n; ++i)
+        {
+            list.addAtTail(arr[i]);
+        }
+    
+        // search list for invalid index values
+        const int numSearches = rand() % MAX_SEARCHES + 1; 
+        for(i = 0; i < numSearches; ++i)
+        {
+            int index = rand() % n + n;       // create index values not in list
+            val = list.get(index);
+            assert(val == MyLinkedList::INVALID_INDEX);
+        }
+
+        delete [] arr;
+
+    }
 }

@@ -2,6 +2,7 @@
 #define MYLINKEDLIST_H
 
 #include <cstdlib>
+#include <iostream>
 
 
 /* Class is based on leetcode's explore singly linked list problem:
@@ -30,7 +31,20 @@ class MyLinkedList{
         void addAtHead(int val);
         void addAtTail(int val);
 
+        /*  Add node of value val before the indexth node.
+
+            If index equals the length of the linked list, the node will be 
+            appended to the end of the list.
+
+            If index is greater than the length, the node will not be inserted.
+
+            Nodes are 0-indexed.
+        */
+        void addAtIndex(int index, int val);
+
         ~MyLinkedList();
+
+        friend std::ostream& operator << (std::ostream& os, MyLinkedList& list);
 
     private:
         SinglyListNode *head;

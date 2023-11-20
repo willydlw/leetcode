@@ -11,7 +11,11 @@ void inOrderFill(int *arr, int n);
 
 void test_add_at_head(void);
 void test_add_at_tail(void);
+void test_add_at_index(void);
 
 void test_get(void);
+
+
+void printArray(int *arr, int n);
 
 #endif 

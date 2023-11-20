@@ -156,3 +156,82 @@ void test_get(void)
 
     }
 }
+
+void test_add_at_index(void)
+{
+    {   // test adding to emtpy list at index zero
+        MyLinkedList list;
+
+        int val = rand();
+        int index = 0;
+        list.addAtIndex(index, val);
+        int indexVal = list.get(index);
+        assert(indexVal == val);
+    }
+
+   {   // test adding to emtpy list at index value greater than list length
+        MyLinkedList list;
+
+        int val = rand();
+        int index = 1;
+        list.addAtIndex(index, val);
+        int indexVal = list.get(index);
+        assert(indexVal == MyLinkedList::INVALID_INDEX);
+    }
+
+    #if 1
+    {   // test list with valid indices
+        int i;
+        int val;
+        int n = rand() % MAX_ARRAY_LENGTH + 1;  // ensure array size is not zero
+        int *arr = new int[n];
+        
+        inOrderFill(arr, n);
+
+        std::cerr << "Test Array\n";
+        printArray(arr, n);
+
+
+        // populate list with every other array value
+        MyLinkedList list;
+        for(i = 0; i < n; i += 2)
+        {
+            list.addAtTail(arr[i]);
+        }
+
+        std::cerr << "\nList - should contain every other array value\n";
+        std::cerr << list << "\n";
+
+        // insert missing array elements
+        for(i = 1; i < n; i +=2)
+        {
+            list.addAtIndex(i, arr[i]);
+        }
+
+        std::cerr << "\nList after adding missing array values at index positions\n";
+        std::cerr << list << "\n";
+    
+        // compare array elements to list
+        // should be in same order
+        for(i = 0; i < n; ++i)
+        {
+            val = list.get(i);
+            assert(val == arr[i]);
+        }
+
+        delete [] arr;
+    }
+
+    #endif
+}
+
+
+void printArray(int *arr, int n)
+{
+    for(int i = 0; i < n; ++i)
+    {
+        std::cout << arr[i] << "  ";
+    }
+
+    std::cout << "\n";
+}

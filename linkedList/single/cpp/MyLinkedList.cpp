@@ -69,3 +69,67 @@ void MyLinkedList::addAtTail(int val)
         addAtHead(val);
     }
 }
+
+
+void MyLinkedList::addAtIndex(int index, int val)
+{
+
+    // Add to list at index position 0
+    // Valid for both empty list and non-empty list.
+    // If list is empty (0 elements) meets requirement 
+    // that index equals length of list.
+    if(index == 0)
+    {
+        addAtHead(val);
+        return;
+    }
+
+    // List length is zero. Index > 0, meets condition that
+    // index > list length is not inserted
+    if(head == nullptr)
+    {
+        return;
+    }
+
+    int count = 0;
+    SinglyListNode* current = head;
+    while(current->next != nullptr && count < index)
+    {
+        count += 1;
+        current = current->next;
+    }
+
+    if(count == index)
+    {
+        if(current == nullptr)
+        {
+            // index equals list length
+            addAtTail(val);
+        }
+        else{
+            // add before
+            SinglyListNode* temp = new SinglyListNode(val);
+            temp->next = current;
+            current = temp;
+        }
+    }
+    else
+    {
+        std::cerr << "TODO: complete addAtIndex\n";
+    }
+}
+
+
+std::ostream& operator << (std::ostream& os, MyLinkedList& list)
+{
+    SinglyListNode* current = list.head;
+    int index = 0;
+    while(current != nullptr)
+    {
+        os << "index: " << index << ", val: " << list.get(index) << "\n";
+        ++index;
+        current = current->next;
+    }
+
+    return os;
+}

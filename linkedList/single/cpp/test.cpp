@@ -34,7 +34,7 @@ void compareArrayToList(const MyLinkedList& list, int *arr, int n, std::string f
 
 void test_add_at_head(void)
 {
-    {
+    {   // test adding at head of empty list
         MyLinkedList list;
         int val = rand();
         list.addAtHead(val);
@@ -42,7 +42,7 @@ void test_add_at_head(void)
         assert(zeroVal == val);
     }
 
-    {
+    {   // test adding multiple values to head of list
         int i;
         int val;
         int n = rand() % MAX_ARRAY_LENGTH + 1;  // add 1 to ensure array size is not zero
@@ -106,5 +106,25 @@ void test_add_at_tail(void)
         }
 
         delete [] arr;
+    }
+}
+
+
+
+void test_get(void)
+{
+    {   // test empty list
+        MyLinkedList list;
+
+        int emptyListValue = list.get(0);
+        assert(emptyListValue == MyLinkedList::INVALID_INDEX);
+
+        emptyListValue = list.get(1);
+        assert(emptyListValue == MyLinkedList::INVALID_INDEX);
+
+        int val = rand();
+        list.addAtTail(val);
+        int zeroVal = list.get(0);
+        assert(zeroVal == val);
     }
 }

@@ -45,8 +45,10 @@ void test_add_at_head(void)
     {
         int i;
         int val;
-        int n = rand() % MAX_ARRAY_LENGTH + 1;  // ensure array size is not zero
-        int arr[n];
+        int n = rand() % MAX_ARRAY_LENGTH + 1;  // add 1 to ensure array size is not zero
+
+        // C++ does not allow variable length arrays on the stack, so allocate on the heap
+        int *arr = new int[n];
         
         randomFill(arr, n);
 
@@ -64,6 +66,8 @@ void test_add_at_head(void)
             val = list.get(i);
             assert(val == arr[i]);
         }
+
+        delete [] arr;
     }
 }
 
@@ -82,7 +86,7 @@ void test_add_at_tail(void)
         int i;
         int val;
         int n = rand() % MAX_ARRAY_LENGTH + 1;  // ensure array size is not zero
-        int arr[n];
+        int *arr = new int[n];
         
         randomFill(arr, n);
 
@@ -100,5 +104,7 @@ void test_add_at_tail(void)
             val = list.get(i);
             assert(val == arr[i]);
         }
+
+        delete [] arr;
     }
 }

@@ -3,6 +3,11 @@
 
 #include <cstdlib>
 
+
+/* Class is based on leetcode's explore singly linked list problem:
+    Design Linked List
+*/
+
 struct SinglyListNode {
     int val;
     SinglyListNode *next;
@@ -12,6 +17,8 @@ struct SinglyListNode {
 
 class MyLinkedList{
     public:
+        static const int INVALID_INDEX = -1;
+
         MyLinkedList();
 
         /* Get the value of the indexth node in the list. 

@@ -38,7 +38,7 @@ int MyLinkedList::get(int index) const
         }
     }
 
-    return -1;
+    return MyLinkedList::INVALID_INDEX;
 }
 
 /*  Add node of value val before the first element of the linked list.

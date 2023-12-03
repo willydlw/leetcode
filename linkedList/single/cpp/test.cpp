@@ -20,7 +20,7 @@ void inOrderFill(int *arr, int n)
     }
 }
 
-void compareArrayToList(const MyLinkedList& list, int *arr, int n, std::string funcName, int line)
+void compareArrayToList(MyLinkedList& list, int *arr, int n, std::string funcName, int line)
 {
     int i;
     int val;
@@ -179,7 +179,6 @@ void test_add_at_index(void)
         assert(indexVal == MyLinkedList::INVALID_INDEX);
     }
 
-    #if 1
     {   // test list with valid indices
         int i;
         int val;
@@ -188,10 +187,6 @@ void test_add_at_index(void)
         
         inOrderFill(arr, n);
 
-        std::cerr << "Test Array\n";
-        printArray(arr, n);
-
-
         // populate list with every other array value
         MyLinkedList list;
         for(i = 0; i < n; i += 2)
@@ -199,17 +194,11 @@ void test_add_at_index(void)
             list.addAtTail(arr[i]);
         }
 
-        std::cerr << "\nList - should contain every other array value\n";
-        std::cerr << list << "\n";
-
         // insert missing array elements
         for(i = 1; i < n; i +=2)
         {
             list.addAtIndex(i, arr[i]);
         }
-
-        std::cerr << "\nList after adding missing array values at index positions\n";
-        std::cerr << list << "\n";
     
         // compare array elements to list
         // should be in same order
@@ -221,8 +210,6 @@ void test_add_at_index(void)
 
         delete [] arr;
     }
-
-    #endif
 }
 
 

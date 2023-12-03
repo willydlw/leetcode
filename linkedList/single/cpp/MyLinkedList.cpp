@@ -20,22 +20,13 @@ MyLinkedList::~MyLinkedList()
 /* Get the value of the indexth node in the linked list.
    If index is invalid, return -1.
 */
-int MyLinkedList::get(int index) const
+int MyLinkedList::get(int index) 
 {
-    SinglyListNode *current = head;
-    int count = 0;
+    SinglyListNode *current = getNode(index);
 
-    while(current != NULL)
+    if(current != NULL)
     {
-        if(count != index)
-        {
-            current = current->next;
-            ++count;
-        }
-        else 
-        {
-            return current->val;
-        }
+        return current->val;
     }
 
     return MyLinkedList::INVALID_INDEX;
@@ -57,12 +48,8 @@ void MyLinkedList::addAtTail(int val)
     if(head != NULL)
     {
         SinglyListNode *newNode = new SinglyListNode(val);
-        SinglyListNode *current = head;
-        while(current->next != NULL)
-        {
-            current = current->next;
-        }
-        current->next = newNode;
+        SinglyListNode *tail = getTail();   
+        tail->next = newNode;
     }
     else
     {
@@ -73,50 +60,21 @@ void MyLinkedList::addAtTail(int val)
 
 void MyLinkedList::addAtIndex(int index, int val)
 {
-
-    // Add to list at index position 0
-    // Valid for both empty list and non-empty list.
-    // If list is empty (0 elements) meets requirement 
-    // that index equals length of list.
     if(index == 0)
     {
         addAtHead(val);
         return;
     }
 
-    // List length is zero. Index > 0, meets condition that
-    // index > list length is not inserted
-    if(head == nullptr)
+    SinglyListNode* prev = getNode(index-1);
+    if(prev == nullptr)
     {
         return;
     }
 
-    int count = 0;
-    SinglyListNode* current = head;
-    while(current->next != nullptr && count < index)
-    {
-        count += 1;
-        current = current->next;
-    }
-
-    if(count == index)
-    {
-        if(current == nullptr)
-        {
-            // index equals list length
-            addAtTail(val);
-        }
-        else{
-            // add before
-            SinglyListNode* temp = new SinglyListNode(val);
-            temp->next = current;
-            current = temp;
-        }
-    }
-    else
-    {
-        std::cerr << "TODO: complete addAtIndex\n";
-    }
+    SinglyListNode* newNode = new SinglyListNode(val);
+    newNode->next = prev->next;
+    prev->next = newNode;
 }
 
 
@@ -132,4 +90,29 @@ std::ostream& operator << (std::ostream& os, MyLinkedList& list)
     }
 
     return os;
+}
+
+
+
+SinglyListNode* MyLinkedList::getTail()
+{
+    SinglyListNode* current = head;
+    while(current != nullptr && current->next != nullptr)
+    {
+        current = current->next;
+    }
+
+    return current;
+}
+
+
+SinglyListNode* MyLinkedList::getNode(int index)
+{
+    SinglyListNode* current = head;
+    for(int i = 0; i < index && current!= nullptr; ++i)
+    {
+        current = current->next;
+    }
+
+    return current;
 }

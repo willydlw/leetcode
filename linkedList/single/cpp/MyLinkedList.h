@@ -26,7 +26,7 @@ class MyLinkedList{
            List is 0-indexed
            If the index is invalid, return -1
         */
-        int get(int index) const;
+        int get(int index);
 
         void addAtHead(int val);
         void addAtTail(int val);
@@ -48,6 +48,15 @@ class MyLinkedList{
 
     private:
         SinglyListNode *head;
+
+        // Returns the last node in the linked list
+        // Returns null pointer when list is empty
+        SinglyListNode* getTail();
+
+        // Returns the index-th node in the list
+        // Return null pointer when index is greater than list length
+        // Nodes are 0-indexed
+        SinglyListNode* getNode(int index);
 };
 
 #endif 

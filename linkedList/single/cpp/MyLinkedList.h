@@ -42,6 +42,8 @@ class MyLinkedList{
         */
         void addAtIndex(int index, int val);
 
+        void deleteAtIndex(int index);
+
         ~MyLinkedList();
 
         friend std::ostream& operator << (std::ostream& os, MyLinkedList& list);

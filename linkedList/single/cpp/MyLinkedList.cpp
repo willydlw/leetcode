@@ -116,3 +116,28 @@ SinglyListNode* MyLinkedList::getNode(int index)
 
     return current;
 }
+
+void MyLinkedList::deleteAtIndex(int index)
+{
+    // get pointer to node to be deleted
+    SinglyListNode* removeNode = getNode(index);
+
+    if(removeNode == nullptr)
+    {
+        // if there is no node at that index, there 
+        // is nothing to delete
+        return;
+    }
+
+    if(index == 0)
+    {
+        head = removeNode->next;
+    }
+    else 
+    {
+        SinglyListNode* prev = getNode(index-1);
+        prev->next = removeNode->next;
+    }
+
+    delete removeNode;          // free memory     
+}

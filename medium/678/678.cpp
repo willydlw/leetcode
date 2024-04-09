@@ -20,9 +20,52 @@
 
 class Solution{
 public:
+
     bool checkValidString(std::string s)
     {
+        int balanceCount = 0;
+        int len = (int)s.length();
 
+        // traverse string once from left to right 
+        // Count left '(' paren and treat '*' as left
+        // to ensure there are not too many closing parentheses 
+        for(int i = 0; i < len; ++i)
+        {
+            // treat '*' as potentially a left
+            if( s[i] != ')')
+            {
+                ++balanceCount;
+            }  
+            else if(balanceCount > 0)
+            {  
+                --balanceCount;
+            }
+            else // balance is 0, there are too many closing (right) parens
+            {
+                return false;
+            }
+        }
+
+
+        // check in reverse order to ensure there are not too many left parens
+        balanceCount = 0;
+        for(int i = len-1; i >= 0; --i)
+        {
+            if( (s[i]) != '(')
+            {
+                ++balanceCount;
+            }
+            else  if(balanceCount > 0)
+            {
+                --balanceCount;
+            }
+            else 
+            {   // too many left parens 
+                return false;
+            }
+        }
+
+        return true;
     }
 };
 
@@ -39,52 +82,86 @@ void runtests(void)
 {
     int testNumber = 1;
 
-    {   // Example 1
+    {   // Example 1 - empty string
+        std::string s = "";
+        test(s, true, testNumber++);
+    }
+
+    {   // Example 2 - no parens
+        std::string s = "*";    
+        test(s, true, testNumber++);
+    }
+
+    {   // Example 3 - no parens
+        std::string s = "******";    
+        test(s, true, testNumber++);
+    }
+
+    {   // Example 4 - single left
+        std::string s = "(";    
+        test(s, false, testNumber++);
+    }
+
+    {   // Example 5 - single right
+        std::string s = ")";    
+        test(s, false, testNumber++);
+    }
+
+    {   // Example 6 - * cannot be treated as right
+        std::string s = "*(";    
+        test(s, false, testNumber++);
+    }
+
+    {   // Example 7 - * cannot be treated as left
+        std::string s = ")*";    
+        test(s, false, testNumber++);
+    }
+
+    {   // Example 8
         std::string s = "()";
         test(s, true, testNumber++);
     }
 
-    {   // Example 2
+    {   // Example 9
         std::string s = "(*)";
         test(s, true, testNumber++);
     }
 
-    {   // Example 3
+    {   // Example 10
         std::string s = "(*))";
         test(s, true, testNumber++);
     }
 
-    {   // Example 4
+    {   // Example 11
         std::string s = "((*)";
         test(s, true, testNumber++);
     }
 
-    {   // Example 5
+    {   // Example 12
         std::string s = "()*)";
         test(s, true, testNumber++);
     }
 
-    {   // Example 6
+    {   // Example 13
         std::string s = ")(";
         // left does not come before the corresponding right
         test(s, false, testNumber++);
     }
 
-    {   // Example 7
-        std::string s = "*(";
-        // left does not come before the corresponding right
-        test(s, false, testNumber++);
-    }
-
-    {   // Example 8
+    {   // Example 14
         std::string s = "(()))";
-        // left does not come before the corresponding right
+        // not enough left
         test(s, false, testNumber++);
     }
 
-    {   // Example 9
+    {   // Example 15
+        std::string s = "((())";
+        // not enough right
+        test(s, false, testNumber++);
+    }
+
+    {   // Example 16
         std::string s = "((*)***)";
-        // left does not come before the corresponding right
         test(s, true, testNumber++);
     }
 }
